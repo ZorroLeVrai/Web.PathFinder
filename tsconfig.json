@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "outDir": "./scripts",
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "watch": false
+  }
+}
