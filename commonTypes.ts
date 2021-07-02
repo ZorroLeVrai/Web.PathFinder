@@ -1,18 +1,36 @@
-export enum TileStatus {
+export enum TileStatus
+{
   Default,
   StartPosition,
   EndPosition,
-  Obstacle,
+  Wall,
   Path,
   Explored
 }
 
-export interface GridSize {
+export enum GameMode
+{
+  SetStart,
+  SetEnd,
+  SetWall,
+  RemoveWall,
+  Resolved
+}
+
+export interface GridSize
+{
   nbLine: number,
   nbColumn: number
 }
 
-export interface CanvasSize {
+export interface CanvasSize
+{
   xSize: number;
   ySize: number;
+}
+
+export interface GridPosition 
+{
+  x: number;
+  y: number;
 }

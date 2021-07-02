@@ -8,6 +8,7 @@ export default class SettingsView
   private inputRowElement : HTMLInputElement;
   private inputColumnElement : HTMLInputElement;
   private showExplorationElement : HTMLInputElement;
+  private settingsButton: HTMLButtonElement;
 
   constructor(private _settingsModel: SettingsModel)
   {
@@ -17,6 +18,7 @@ export default class SettingsView
     this.inputRowElement = document.getElementById("nb-rows") as HTMLInputElement;
     this.inputColumnElement = document.getElementById("nb-columns") as HTMLInputElement;
     this.showExplorationElement = document.getElementById("show-exploration") as HTMLInputElement;
+    this.settingsButton = document.getElementById("settings-button") as HTMLButtonElement;
   }
 
   public addCloseSettingsListener = (listener: () => void) =>
@@ -27,6 +29,11 @@ export default class SettingsView
   public addCommitSettingsListener = (listener: () => void) =>
   {
     this.commitSettingsElement?.addEventListener("click", listener);
+  }
+
+  public addShowSettingsListener = (listener: () => void) =>
+  {
+    this.settingsButton?.addEventListener("click", listener);
   }
 
   public hide()

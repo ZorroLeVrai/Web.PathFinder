@@ -1,24 +1,34 @@
+import { GridPosition, TileStatus } from '../commonTypes.js';
 import GameModel from './gameModel.js';
 
 const backgroundColor = "black";
+const defaultTileColor = "white";
 const tilePadding = 1;
 
-const defaultTileColor = "white";
+const colorMap = new Map([
+  [TileStatus.Default, "white"],
+  [TileStatus.StartPosition, "green"],
+  [TileStatus.EndPosition, "blue"],
+  [TileStatus.Wall, "grey"],
+  [TileStatus.Path, "green"],
+  [TileStatus.Explored, "orange"]
+]);
 
 export default class GameView
 {
   private canvasElement: HTMLCanvasElement;
   private commandDiv: HTMLDivElement;
-  private settingsButton: HTMLButtonElement;
+  private initGridButton: HTMLButtonElement;
   private canvasContext: CanvasRenderingContext2D;
-
+  private gameModeElements: NodeListOf<Element>;
 
   constructor(private gameModel: GameModel)
   {
     this.canvasElement = document.getElementById("mainCanvas") as HTMLCanvasElement;
     this.commandDiv = document.getElementById("commandMenu") as HTMLDivElement;
-    this.settingsButton = document.getElementById("settings-button") as HTMLButtonElement;
+    this.initGridButton = document.getElementById("init-grid-button") as HTMLButtonElement;
     this.canvasContext = this.canvasElement.getContext("2d") as CanvasRenderingContext2D;
+    this.gameModeElements = document.querySelectorAll("input[name='command']");
 
     this.updateDisplay();
   }
@@ -39,17 +49,18 @@ export default class GameView
   {
     const nbLine = this.gameModel.settingsModel.gridSize.nbLine;
     const nbColumn = this.gameModel.settingsModel.gridSize.nbColumn;
-    this.canvasContext.fillStyle = defaultTileColor;
 
-    for (let i=0; i < nbLine; ++i)
+    for (let x=0; x < nbColumn; ++x)
     {
-      for (let j=0; j < nbColumn; ++j)
+      for (let y=0; y < nbLine; ++y)
       {
-        const minX = Math.round(i * this.canvasElement.width / nbLine) + tilePadding;
-        const maxX = Math.round((i+1) * this.canvasElement.width / nbLine) - tilePadding;
-        const minY = Math.round(j * this.canvasElement.height / nbColumn) + tilePadding;
-        const maxY = Math.round((j+1) * this.canvasElement.height / nbColumn) - tilePadding;
+        const minX = Math.round(x * this.canvasElement.width / nbColumn) + tilePadding;
+        const maxX = Math.round((x+1) * this.canvasElement.width / nbColumn) - tilePadding;
+        const minY = Math.round(y * this.canvasElement.height / nbLine) + tilePadding;
+        const maxY = Math.round((y+1) * this.canvasElement.height / nbLine) - tilePadding;
 
+        const tileColor = colorMap.get(this.gameModel.grid[x][y]);
+        this.canvasContext.fillStyle = tileColor ?? defaultTileColor;
         this.canvasContext.fillRect(minX, minY, maxX-minX, maxY-minY);
       }
     }
@@ -62,13 +73,48 @@ export default class GameView
     this.displayGrid();
   }
 
-  public addShowSettingsListener = (listener: () => void) =>
-  {
-    this.settingsButton?.addEventListener("click", listener);
-  }
-
-  public addCanvasListener = (listener: () => void) =>
+  public addCanvasListener = (listener: (evt: MouseEvent) => void) =>
   {
     this.canvasElement?.addEventListener("click", listener);
+  }
+
+  public addGameModeListener = (listener: (evt: Event) => void) =>
+  {
+    for (const gameMode of this.gameModeElements)
+    {
+      gameMode.addEventListener("change", listener);
+    }
+  }
+
+  public addInitGridListener = (listener: (evt: Event) => void) => 
+  {
+    this.initGridButton.addEventListener("click", listener);
+  }
+
+  public getPosition = (x: number, y: number) : GridPosition =>
+  {
+    const nbLine = this.gameModel.settingsModel.gridSize.nbLine;
+    const nbColumn = this.gameModel.settingsModel.gridSize.nbColumn;
+    const commandBarHeight = this.commandDiv.offsetHeight;
+    const canvasWidth = this.canvasElement.width;
+    const canvasHeight = this.canvasElement.height;
+
+    const absoluteX = x;
+    const absoluteY = y - commandBarHeight;
+    return {x: Math.floor(nbColumn*absoluteX / canvasWidth), y: Math.floor(nbLine*absoluteY / canvasHeight)} ;
+  }
+
+  public getSelectedMode = () => 
+  {
+    for (const gameMode of this.gameModeElements)
+    {
+      const gameModeInputElement = gameMode as HTMLInputElement;
+      if (gameModeInputElement.checked)
+      {
+        return gameModeInputElement.value;
+      }
+    }
+
+    return "";
   }
 }

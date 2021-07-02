@@ -1,15 +1,22 @@
 import { SettingsModel } from './settingsModel.js';
 import SettingsView from './settingsView.js';
+import ControllerMediator from '../controllerMediator.js';
 
 export default class SettingsController
 {
   private settingsView : SettingsView;
+  private mediator: ControllerMediator;
 
   constructor(private settingsModel: SettingsModel)
   {
     this.settingsView = new SettingsView(settingsModel);
+    this.settingsView.addShowSettingsListener(this.showSettings);
     this.settingsView.addCloseSettingsListener(this.closeSettings);
     this.settingsView.addCommitSettingsListener(this.commitSettings);
+  }
+
+  registerMediator = (mediator: ControllerMediator) => {
+    this.mediator = mediator;
   }
 
   closeSettings = () => {
@@ -32,6 +39,7 @@ export default class SettingsController
     this.setGridSize(parseInt(this.settingsView.rowSize), parseInt(this.settingsView.columnSize));
     this.settingsModel.showExploration = this.settingsView.showExploration;
 
+    this.mediator.updateGameDisplay(this.settingsModel.gridSize);
     this.closeSettings();
   }
 }
