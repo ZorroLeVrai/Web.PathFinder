@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="flex-column height-100pc">
-      <div class="flex-mincolumn-maxrow" id="commandMenu">
+      <div class="flex-mincolumn-maxrow flex-fixed" id="commandMenu">
         <button id="settings-button" class="flex-expanded moderate-margin">
           Settings
         </button>
@@ -44,7 +44,7 @@
           <label for="deleteWall">Delete Obstacles</label>
         </div>
 
-        <button class="flex-expanded moderate-margin">Solve</button>
+        <button id="solve-button" class="flex-expanded moderate-margin">Solve</button>
       </div>
       <div class="mainDrawing">
         <canvas id="mainCanvas"> </canvas>
@@ -55,7 +55,6 @@
         class="
           absolute-center
           front-1
-          size-form-50
           background-lightgrey
           flex-column
           removed
@@ -71,7 +70,7 @@
           </div>
         </div>
         <div class="flex-expanded">
-          <div>
+          <div class="gridbox-4-2">
             <label class="padding-02rem margin-02rem" for="nb-rows"
               >Number of rows (10-100)</label
             >
@@ -82,8 +81,6 @@
               min="10"
               max="100"
             />
-          </div>
-          <div>
             <label class="padding-02rem margin-02rem" for="nb-columns"
               >Number of columns (10-100)</label
             >
@@ -94,19 +91,36 @@
               min="10"
               max="100"
             />
-          </div>
-          <div>
+            <div class="padding-02rem margin-02rem">
+              <input
+                id="show-exploration"
+                type="checkbox"
+              />
+              <label for="show-exploration"
+                >Show exploration</label
+              >
+            </div>
+            <div></div>
+            <div class="padding-02rem margin-02rem">
+              <input
+                id="use-delay"
+                type="checkbox"
+              />
+              <label for="use-delay"
+                >Set Delay in ms (1-1000)</label
+              >
+            </div>
             <input
               class="padding-02rem margin-02rem"
-              id="show-exploration"
-              type="checkbox"
+              id="nb-delay"
+              type="number"
+              min="1"
+              max="1000"
+              disabled
             />
-            <label class="padding-02rem margin-02rem" for="show-exploration"
-              >Show exploration</label
-            >
           </div>
         </div>
-        <div class="flex-fixed"><button id="commit-settings">OK</button></div>
+        <div class="flex-row flex-centered flex-fixed padding-02rem margin-02rem"><button id="commit-settings">OK</button></div>
       </div>
     </div>
 

@@ -9,6 +9,8 @@ export default class SettingsView
   private inputColumnElement : HTMLInputElement;
   private showExplorationElement : HTMLInputElement;
   private settingsButton: HTMLButtonElement;
+  private useDelayElement: HTMLInputElement;
+  private setNbDelayElement: HTMLInputElement;
 
   constructor(private _settingsModel: SettingsModel)
   {
@@ -19,6 +21,10 @@ export default class SettingsView
     this.inputColumnElement = document.getElementById("nb-columns") as HTMLInputElement;
     this.showExplorationElement = document.getElementById("show-exploration") as HTMLInputElement;
     this.settingsButton = document.getElementById("settings-button") as HTMLButtonElement;
+    this.useDelayElement = document.getElementById("use-delay") as HTMLInputElement;
+    this.setNbDelayElement = document.getElementById("nb-delay") as HTMLInputElement;
+
+    this.useDelayElement.addEventListener("change", this.handleUseDelayChange);
   }
 
   public addCloseSettingsListener = (listener: () => void) =>
@@ -36,19 +42,30 @@ export default class SettingsView
     this.settingsButton?.addEventListener("click", listener);
   }
 
+  private handleUseDelayChange = () =>
+  {
+    this.setNbDelayElement.disabled = !this.useDelayElement.checked;
+  }
+
   public hide()
   {
     this.settingsFormElement.classList.add("removed");
   }
 
-  public display()
+  //update the view according to the settings
+  private updateView = () =>
   {
-    this.settingsFormElement?.classList.remove("removed");
-
-    //update the view according to the settings
     this.inputRowElement.value = this._settingsModel.gridSize.nbLine.toString();
     this.inputColumnElement.value = this._settingsModel.gridSize.nbColumn.toString();
     this.showExplorationElement.checked = this._settingsModel.showExploration;
+    this.useDelayElement.checked = this._settingsModel.useDelay;
+    this.setNbDelayElement.value = this._settingsModel.delayInMs.toString();
+  }
+
+  public display()
+  {
+    this.settingsFormElement?.classList.remove("removed");
+    this.updateView();
   }
 
   get rowSize()
@@ -64,5 +81,15 @@ export default class SettingsView
   get showExploration()
   {
     return this.showExplorationElement.checked;
+  }
+
+  get useDelay()
+  {
+    return this.useDelayElement.checked;
+  }
+
+  get nbDelay()
+  {
+    return this.setNbDelayElement.value;
   }
 }

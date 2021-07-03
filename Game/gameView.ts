@@ -19,6 +19,7 @@ export default class GameView
   private canvasElement: HTMLCanvasElement;
   private commandDiv: HTMLDivElement;
   private initGridButton: HTMLButtonElement;
+  private solveButton: HTMLButtonElement;
   private canvasContext: CanvasRenderingContext2D;
   private gameModeElements: NodeListOf<Element>;
 
@@ -27,6 +28,7 @@ export default class GameView
     this.canvasElement = document.getElementById("mainCanvas") as HTMLCanvasElement;
     this.commandDiv = document.getElementById("commandMenu") as HTMLDivElement;
     this.initGridButton = document.getElementById("init-grid-button") as HTMLButtonElement;
+    this.solveButton  = document.getElementById("solve-button") as HTMLButtonElement;
     this.canvasContext = this.canvasElement.getContext("2d") as CanvasRenderingContext2D;
     this.gameModeElements = document.querySelectorAll("input[name='command']");
 
@@ -73,9 +75,9 @@ export default class GameView
     this.displayGrid();
   }
 
-  public addCanvasListener = (listener: (evt: MouseEvent) => void) =>
+  public addCanvasListener = (eventName: string, listener: (evt: MouseEvent) => void) =>
   {
-    this.canvasElement?.addEventListener("click", listener);
+    this.canvasElement?.addEventListener(eventName, listener);
   }
 
   public addGameModeListener = (listener: (evt: Event) => void) =>
@@ -89,6 +91,11 @@ export default class GameView
   public addInitGridListener = (listener: (evt: Event) => void) => 
   {
     this.initGridButton.addEventListener("click", listener);
+  }
+
+  public addSolveListener = (listener: () => void) => 
+  {
+    this.solveButton.addEventListener("click", listener);
   }
 
   public getPosition = (x: number, y: number) : GridPosition =>

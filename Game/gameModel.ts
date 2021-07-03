@@ -35,7 +35,7 @@ export default class GameModel
 
     for (let x=0; x<this.settingsModel.gridSize.nbColumn; ++x)
     {
-      for (let y=0; y<this.settingsModel.gridSize.nbColumn; ++y)
+      for (let y=0; y<this.settingsModel.gridSize.nbLine; ++y)
       {
         this.grid[x][y] = TileStatus.Default;
       }

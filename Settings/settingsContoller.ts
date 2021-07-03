@@ -33,12 +33,18 @@ export default class SettingsController
     this.settingsModel.gridSize = { nbLine: sizeRow, nbColumn: sizeColumn }
   }
 
-  commitSettings = () =>
+  //update the model according to the view
+  private updateModel = () =>
   {
-    //update the model according to the view
     this.setGridSize(parseInt(this.settingsView.rowSize), parseInt(this.settingsView.columnSize));
     this.settingsModel.showExploration = this.settingsView.showExploration;
+    this.settingsModel.useDelay = this.settingsView.useDelay;
+    this.settingsModel.delayInMs = this.settingsModel.delayInMs;
+  }
 
+  commitSettings = () =>
+  {
+    this.updateModel();
     this.mediator.updateGameDisplay(this.settingsModel.gridSize);
     this.closeSettings();
   }

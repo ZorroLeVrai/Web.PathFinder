@@ -12,13 +12,17 @@ const radioBoxValue2GameModeMap = new Map([
 export default class GameController
 {
   private readonly gameView: GameView;
+  private isMouseDown = false;
 
   constructor(private _gameModel: GameModel)
   {
     this.gameView = new GameView(_gameModel);
-    this.gameView.addCanvasListener(this.handleCanvasClick);
+    this.gameView.addCanvasListener("mousemove", this.handleCanvasMouseMove);
+    this.gameView.addCanvasListener("mousedown", this.handleCanvasMouseDown);
+    this.gameView.addCanvasListener("mouseup", this.handleCanvasMouseUp);
     this.gameView.addGameModeListener(this.handleGameModeChange);
     this.gameView.addInitGridListener(this.handleInitGrid);
+    this.gameView.addSolveListener(this.handleSolve);
   }
 
   initGrid = (gridSize: GridSize) => 
@@ -77,10 +81,34 @@ export default class GameController
     this.gameView.updateDisplay();
   }
 
-  private handleCanvasClick = (evt: MouseEvent) =>
+  private handleSolve = () =>
   {
-    const currentPosition = this.gameView.getPosition(evt.x, evt.y);
+    console.log("solve grid");
+  }
+
+  private processCanvasAction = (mousePositionX: number, mousePositionY: number) =>
+  {
+    const currentPosition = this.gameView.getPosition(mousePositionX, mousePositionY);
     this.gridUpdate(currentPosition.x, currentPosition.y, this._gameModel.gameMode);
+  }
+
+  private handleCanvasMouseMove = (evt: MouseEvent) =>
+  {
+    if (!this.isMouseDown)
+      return;
+
+      this.processCanvasAction(evt.x, evt.y);
+  }
+
+  private handleCanvasMouseDown = (evt: MouseEvent) =>
+  {
+    this.isMouseDown = true;
+    this.processCanvasAction(evt.x, evt.y);
+  }
+
+  private handleCanvasMouseUp = () =>
+  {
+    this.isMouseDown = false;
   }
 
   private handleGameModeChange = (evt: Event) =>
