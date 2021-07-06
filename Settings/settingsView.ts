@@ -90,6 +90,6 @@ export default class SettingsView
 
   get nbDelay()
   {
-    return this.setNbDelayElement.value;
+    return parseInt(this.setNbDelayElement.value);
   }
 }

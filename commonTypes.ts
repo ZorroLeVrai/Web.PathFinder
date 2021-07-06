@@ -5,7 +5,8 @@ export enum TileStatus
   EndPosition,
   Wall,
   Path,
-  Explored
+  Explored,
+  ToExplore
 }
 
 export enum GameMode
@@ -29,8 +30,33 @@ export interface CanvasSize
   ySize: number;
 }
 
-export interface GridPosition 
+export class GridPosition 
 {
   x: number;
   y: number;
+
+  constructor(x: number, y: number)
+  {
+    this.x = x;
+    this.y = y;
+  }
+
+  isOnPosition = (position: GridPosition) =>
+    this.x === position.x && this.y === position.y;
+
+  toNumber = () => 1000*this.y + this.x;
+
+  getAllAdjacentPositions = () =>
+  {
+    return [
+      new GridPosition(this.x-1, this.y-1),
+      new GridPosition(this.x-1, this.y),
+      new GridPosition(this.x-1, this.y+1),
+      new GridPosition(this.x, this.y-1),
+      new GridPosition(this.x, this.y+1),
+      new GridPosition(this.x+1, this.y-1),
+      new GridPosition(this.x+1, this.y),
+      new GridPosition(this.x+1, this.y+1)
+    ];
+  }
 }

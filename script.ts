@@ -7,7 +7,7 @@ import ControllerMediator from './controllerMediator.js';
 let settingsController : SettingsController;
 let gameController: GameController;
 
-let settingsModel = new SettingsModel({ nbLine: 20, nbColumn: 20}, false, false, 10);
+let settingsModel = new SettingsModel({ nbLine: 20, nbColumn: 20}, true, false, 0);
 let gameModel = new GameModel(settingsModel);
 
 window.onload = init;

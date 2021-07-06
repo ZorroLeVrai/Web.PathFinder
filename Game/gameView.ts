@@ -10,8 +10,9 @@ const colorMap = new Map([
   [TileStatus.StartPosition, "green"],
   [TileStatus.EndPosition, "blue"],
   [TileStatus.Wall, "grey"],
-  [TileStatus.Path, "green"],
-  [TileStatus.Explored, "orange"]
+  [TileStatus.Path, "red"],
+  [TileStatus.Explored, "orange"],
+  [TileStatus.ToExplore, "yellow"]
 ]);
 
 export default class GameView
@@ -61,11 +62,19 @@ export default class GameView
         const minY = Math.round(y * this.canvasElement.height / nbLine) + tilePadding;
         const maxY = Math.round((y+1) * this.canvasElement.height / nbLine) - tilePadding;
 
-        const tileColor = colorMap.get(this.gameModel.grid[x][y]);
-        this.canvasContext.fillStyle = tileColor ?? defaultTileColor;
+        this.canvasContext.fillStyle = this.getTileColor(x, y);
         this.canvasContext.fillRect(minX, minY, maxX-minX, maxY-minY);
       }
     }
+  }
+
+  private getTileColor = (x: number, y: number) =>
+  {
+    let tileStatusToConsider = this.gameModel.grid[x][y];
+    if (!this.gameModel.getShowExploration() && tileStatusToConsider === TileStatus.Explored)
+      tileStatusToConsider = TileStatus.Default;
+
+    return colorMap.get(this.gameModel.grid[x][y]) ?? defaultTileColor;
   }
 
   public updateDisplay = () =>
@@ -108,7 +117,7 @@ export default class GameView
 
     const absoluteX = x;
     const absoluteY = y - commandBarHeight;
-    return {x: Math.floor(nbColumn*absoluteX / canvasWidth), y: Math.floor(nbLine*absoluteY / canvasHeight)} ;
+    return new GridPosition(Math.floor(nbColumn*absoluteX / canvasWidth), Math.floor(nbLine*absoluteY / canvasHeight));
   }
 
   public getSelectedMode = () => 

@@ -28,6 +28,10 @@ export default class GameModel
     this.grid = gridResult;
   }
 
+  public getShowExploration = () => this.settingsModel.showExploration;
+
+  public getPathFinderDelay = () => (this.settingsModel.useDelay) ? this.settingsModel.delayInMs : 0;
+
   public resetGrid = () =>
   {
     this.startPosition = undefined;
@@ -53,14 +57,14 @@ export default class GameModel
   setStartPosition = (x: number, y: number) => 
   {
     this.resetPosition(this.startPosition);
-    this.startPosition = {x, y};
+    this.startPosition = new GridPosition(x, y);
     this.setGridElement(x, y, TileStatus.StartPosition);
   }
 
   setEndPosition = (x: number, y: number) => 
   {
     this.resetPosition(this.endPosition);
-    this.endPosition = {x, y};
+    this.endPosition = new GridPosition(x, y);
     this.setGridElement(x, y, TileStatus.EndPosition);
   }
 
