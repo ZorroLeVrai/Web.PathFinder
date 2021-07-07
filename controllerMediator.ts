@@ -12,4 +12,10 @@ export default class ControllerMediator
     {
         this.gameController.initGrid(gridSize);
     }
+
+    public showSettingsForm = () =>
+        this.settingsController.showSettings();
+
+    public disableSettingsControls = (disable: boolean) =>
+        this.gameController.disableSettingsControls(disable);
 }

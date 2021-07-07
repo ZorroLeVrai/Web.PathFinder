@@ -24,6 +24,7 @@ function init() : any
 function registerMediator(mediator: ControllerMediator)
 {
   settingsController.registerMediator(mediator);
+  gameController.registerMediator(mediator);
 }
 
 function resizeWindow()

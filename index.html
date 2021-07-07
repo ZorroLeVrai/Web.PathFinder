@@ -14,8 +14,15 @@
           Settings
         </button>
 
-        <button id="init-grid-button" class="flex-expanded moderate-margin">
-          Init Grid
+        <button id="new-grid-button" class="flex-expanded moderate-margin">
+          New Grid
+        </button>
+
+        <button
+          id="clear-solution-button"
+          class="flex-expanded moderate-margin"
+        >
+          Clear Solution
         </button>
 
         <div class="flex-fixed moderate-margin">
@@ -104,6 +111,11 @@
               max="1000"
               disabled
             />
+          </div>
+          <div class="padding-02rem margin-02rem">
+            <label id="show-warning" class="warning-msg hidden"
+              >Changing the grid size will initialize the whole grid!</label
+            >
           </div>
         </div>
         <div

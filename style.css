@@ -64,6 +64,10 @@ body {
   display: none;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 #mainCanvas {
   width: 100%;
   height: 1fr;
@@ -116,6 +120,11 @@ body {
 
 .default-cursor {
   cursor: default;
+}
+
+.warning-msg {
+  color: darkred;
+  font-weight: bold;
 }
 
 @media screen and (min-width: 600px) {

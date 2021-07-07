@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "lib": ["ES6", "ES7", "dom"],
     "target": "ES6",
     "outDir": "./scripts",
     "sourceMap": true,

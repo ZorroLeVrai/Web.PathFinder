@@ -33,11 +33,14 @@ export default class AnimationController
 
     if (this.pathFinder.nextStep())
     {
+      //display path finder solving step
       this.gameController.updateDisplay();
     }
     else
     {
+      //path solved
       this.isAnimationOn = false;
+      this.gameController.disableSettingsControls(false);
       this.gameController.updateDisplay();
     }
   }

@@ -19,7 +19,9 @@ export default class GameView
 {
   private canvasElement: HTMLCanvasElement;
   private commandDiv: HTMLDivElement;
-  private initGridButton: HTMLButtonElement;
+  private settingsButton: HTMLButtonElement;
+  private newGridButton: HTMLButtonElement;
+  private clearSolutionButton: HTMLButtonElement;
   private solveButton: HTMLButtonElement;
   private canvasContext: CanvasRenderingContext2D;
   private gameModeElements: NodeListOf<Element>;
@@ -28,12 +30,32 @@ export default class GameView
   {
     this.canvasElement = document.getElementById("mainCanvas") as HTMLCanvasElement;
     this.commandDiv = document.getElementById("commandMenu") as HTMLDivElement;
-    this.initGridButton = document.getElementById("init-grid-button") as HTMLButtonElement;
+    this.settingsButton = document.getElementById("settings-button") as HTMLButtonElement;
+    this.newGridButton = document.getElementById("new-grid-button") as HTMLButtonElement;
+    this.clearSolutionButton = document.getElementById("clear-solution-button") as HTMLButtonElement;
     this.solveButton  = document.getElementById("solve-button") as HTMLButtonElement;
     this.canvasContext = this.canvasElement.getContext("2d") as CanvasRenderingContext2D;
     this.gameModeElements = document.querySelectorAll("input[name='command']");
 
     this.updateDisplay();
+  }
+
+  public addShowSettingsListener = (listener: () => void) =>
+  {
+    this.settingsButton?.addEventListener("click", listener);
+  }
+
+  public disableSettingsControls = (disable: boolean) =>
+  {
+    this.newGridButton.disabled = disable;
+    this.clearSolutionButton.disabled = disable;
+    this.settingsButton.disabled = disable;
+    this.solveButton.disabled = disable;
+
+    this.gameModeElements.forEach(gameModeElement => {
+      const gameModeInputElement = gameModeElement as HTMLInputElement;
+      gameModeInputElement.disabled = disable;
+    });
   }
 
   private updateCanvasSize = () =>
@@ -74,7 +96,8 @@ export default class GameView
     if (!this.gameModel.getShowExploration() && tileStatusToConsider === TileStatus.Explored)
       tileStatusToConsider = TileStatus.Default;
 
-    return colorMap.get(this.gameModel.grid[x][y]) ?? defaultTileColor;
+    return colorMap.get(tileStatusToConsider) ?? defaultTileColor;
+    //return colorMap.get(this.gameModel.grid[x][y]) ?? defaultTileColor;
   }
 
   public updateDisplay = () =>
@@ -91,15 +114,19 @@ export default class GameView
 
   public addGameModeListener = (listener: (evt: Event) => void) =>
   {
-    for (const gameMode of this.gameModeElements)
-    {
-      gameMode.addEventListener("change", listener);
-    }
+    this.gameModeElements.forEach(gameModeElement => {
+      gameModeElement.addEventListener("change", listener);
+    });
   }
 
-  public addInitGridListener = (listener: (evt: Event) => void) => 
+  public addNewGridListener = (listener: () => void) => 
   {
-    this.initGridButton.addEventListener("click", listener);
+    this.newGridButton.addEventListener("click", listener);
+  }
+
+  public addClearSolutionListener = (listener: () => void) => 
+  {
+    this.clearSolutionButton.addEventListener("click", listener);
   }
 
   public addSolveListener = (listener: () => void) => 
@@ -122,14 +149,13 @@ export default class GameView
 
   public getSelectedMode = () => 
   {
-    for (const gameMode of this.gameModeElements)
-    {
-      const gameModeInputElement = gameMode as HTMLInputElement;
+    this.gameModeElements.forEach(gameModeElement => {
+      const gameModeInputElement = gameModeElement as HTMLInputElement;
       if (gameModeInputElement.checked)
       {
         return gameModeInputElement.value;
       }
-    }
+    });
 
     return "";
   }

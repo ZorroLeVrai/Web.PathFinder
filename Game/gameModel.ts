@@ -28,6 +28,14 @@ export default class GameModel
     this.grid = gridResult;
   }
 
+  public clearSolution = () =>
+  {
+    this.setGridAction((x, y) => {
+      if ([TileStatus.Path, TileStatus.Explored, TileStatus.ToExplore].includes(this.grid[x][y]))
+        this.grid[x][y] = TileStatus.Default;
+    });
+  }
+
   public getShowExploration = () => this.settingsModel.showExploration;
 
   public getPathFinderDelay = () => (this.settingsModel.useDelay) ? this.settingsModel.delayInMs : 0;
@@ -37,11 +45,16 @@ export default class GameModel
     this.startPosition = undefined;
     this.endPosition = undefined;
 
+    this.setGridAction((x, y) => this.grid[x][y] = TileStatus.Default);
+  }
+
+  private setGridAction = (action: (x: number, y: number) => void) =>
+  {
     for (let x=0; x<this.settingsModel.gridSize.nbColumn; ++x)
     {
       for (let y=0; y<this.settingsModel.gridSize.nbLine; ++y)
       {
-        this.grid[x][y] = TileStatus.Default;
+        action(x,y);
       }
     }
   }

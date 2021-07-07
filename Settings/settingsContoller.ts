@@ -10,17 +10,25 @@ export default class SettingsController
   constructor(private settingsModel: SettingsModel)
   {
     this.settingsView = new SettingsView(settingsModel);
-    this.settingsView.addShowSettingsListener(this.showSettings);
     this.settingsView.addCloseSettingsListener(this.closeSettings);
     this.settingsView.addCommitSettingsListener(this.commitSettings);
+    this.settingsView.addGridSizeChangeListener(this.handleGridSizeChange);
   }
 
-  registerMediator = (mediator: ControllerMediator) => {
+  handleGridSizeChange = () =>
+  {
+    const isGridSizeChange = this.isGridSizeChange();
+    this.settingsView.displayWarningLabel(isGridSizeChange);
+  }
+
+  registerMediator = (mediator: ControllerMediator) =>
+  {
     this.mediator = mediator;
   }
 
   closeSettings = () => {
     this.settingsView.hide();
+    this.mediator.disableSettingsControls(false);
   }
 
   showSettings = () =>
@@ -34,18 +42,33 @@ export default class SettingsController
   }
 
   //update the model according to the view
-  private updateModel = () =>
+  private updateModel = (isGridSizeChange: boolean) =>
   {
-    this.setGridSize(parseInt(this.settingsView.rowSize), parseInt(this.settingsView.columnSize));
+    if (isGridSizeChange)
+    {
+      this.setGridSize(parseInt(this.settingsView.rowSize), parseInt(this.settingsView.columnSize));
+    }
+
     this.settingsModel.showExploration = this.settingsView.showExploration;
     this.settingsModel.useDelay = this.settingsView.useDelay;
     this.settingsModel.delayInMs = this.settingsView.nbDelay;
   }
 
+  private isGridSizeChange = () =>
+  {
+    const newRowSize = parseInt(this.settingsView.rowSize);
+    const newColumnSize = parseInt(this.settingsView.columnSize);
+    return (newColumnSize !== this.settingsModel.gridSize.nbColumn || newRowSize !== this.settingsModel.gridSize.nbLine);
+  }
+
   commitSettings = () =>
   {
-    this.updateModel();
-    this.mediator.updateGameDisplay(this.settingsModel.gridSize);
+    const isGridSizeChange = this.isGridSizeChange();
+    this.updateModel(isGridSizeChange);
+
+    if (isGridSizeChange)
+      this.mediator.updateGameDisplay(this.settingsModel.gridSize);
     this.closeSettings();
+    this.mediator.disableSettingsControls(false);
   }
 }

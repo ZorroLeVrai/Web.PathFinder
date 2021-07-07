@@ -8,9 +8,9 @@ export default class SettingsView
   private inputRowElement : HTMLInputElement;
   private inputColumnElement : HTMLInputElement;
   private showExplorationElement : HTMLInputElement;
-  private settingsButton: HTMLButtonElement;
   private useDelayElement: HTMLInputElement;
   private setNbDelayElement: HTMLInputElement;
+  private warningLabelElement: HTMLLabelElement;
 
   constructor(private _settingsModel: SettingsModel)
   {
@@ -20,11 +20,17 @@ export default class SettingsView
     this.inputRowElement = document.getElementById("nb-rows") as HTMLInputElement;
     this.inputColumnElement = document.getElementById("nb-columns") as HTMLInputElement;
     this.showExplorationElement = document.getElementById("show-exploration") as HTMLInputElement;
-    this.settingsButton = document.getElementById("settings-button") as HTMLButtonElement;
     this.useDelayElement = document.getElementById("use-delay") as HTMLInputElement;
     this.setNbDelayElement = document.getElementById("nb-delay") as HTMLInputElement;
+    this.warningLabelElement = document.getElementById("show-warning") as HTMLLabelElement;
 
     this.useDelayElement.addEventListener("change", this.handleUseDelayChange);
+  }
+
+  public addGridSizeChangeListener = (listener: () => void) => 
+  {
+    this.inputRowElement.addEventListener("change", listener);
+    this.inputColumnElement.addEventListener("change", listener);
   }
 
   public addCloseSettingsListener = (listener: () => void) =>
@@ -37,9 +43,16 @@ export default class SettingsView
     this.commitSettingsElement?.addEventListener("click", listener);
   }
 
-  public addShowSettingsListener = (listener: () => void) =>
+  public displayWarningLabel = (display: boolean) =>
   {
-    this.settingsButton?.addEventListener("click", listener);
+    if (display)
+    {
+      this.warningLabelElement.classList.remove("hidden");
+    }
+    else
+    {
+      this.warningLabelElement.classList.add("hidden");
+    }
   }
 
   private handleUseDelayChange = () =>
