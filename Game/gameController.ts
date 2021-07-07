@@ -127,15 +127,11 @@ export default class GameController
     if (this.getPathFinderDelay() > 0)
     {
       this.animationController.start(pathFinder);
-      // const animationController = new AnimationController(this, pathFinder);
-      // animationController.start();
     }
     else
     {
       while (pathFinder.nextStep())
-      {
-        this.updateDisplay();
-      }
+      {}
       this.updateDisplay();
     }
   }

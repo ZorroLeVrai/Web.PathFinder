@@ -97,18 +97,30 @@ export default class PathFinderService
 
   private getDistanceToEndPoint = (position: GridPosition) =>
   {
-    const distance = Math.sqrt((position.x - this.endPosition.x)**2 + (position.y - this.endPosition.y)**2);
-    return distance;
+    return this.getDistance(position, this.endPosition);
   }
+
+  private getDistance = (position1: GridPosition, posiotion2: GridPosition) =>
+    Math.sqrt((position1.x - posiotion2.x)**2 + (position1.y - posiotion2.y)**2);
+  
+  private isCurrentNodeCheaper = (bestNode: PathInformation, currentNode: PathInformation) =>
+  {
+    const currentRelativeValue = currentNode.getFullCost() - bestNode.getFullCost();
+
+    if (0 === currentRelativeValue)
+      return currentNode.pathLength < bestNode.pathLength;
     
+    return  currentRelativeValue < 0;
+  }
+
 
   private getBestNode = () =>
   {
     let bestNode : PathInformation | null = null;
-    for(let node of this.nodeToExplore.values())
+    for(let currentNode of this.nodeToExplore.values())
     {
-      if (bestNode == null || node.getFullCost() < bestNode.getFullCost())
-        bestNode = node;
+      if (bestNode == null || this.isCurrentNodeCheaper(bestNode, currentNode))
+        bestNode = currentNode;
     }
 
     return bestNode;
@@ -122,8 +134,7 @@ export default class PathFinderService
     {
       if (this.gameController.isInsideGrid(adjacentPosition)
         && !this.gameController.isOnWall(adjacentPosition)
-        && !this.exploredNodes.has(adjacentPosition.toNumber())
-        && !this.nodeToExplore.has(adjacentPosition.toNumber()))
+        && !this.exploredNodes.has(adjacentPosition.toNumber()))
       {
         result.push(adjacentPosition);
       }
@@ -156,7 +167,7 @@ export default class PathFinderService
     let adjacentPositions = this.getAdjacentNodes(bestNode.currentPostion);
     for(let adjacentPosition of adjacentPositions)
     {
-      this.updateNode(adjacentPosition, bestNode.currentPostion, bestNode.pathLength+1);
+      this.updateNode(adjacentPosition, bestNode.currentPostion, bestNode.pathLength + this.getDistance(bestNode.currentPostion, adjacentPosition));
     }
 
     this.setNodeAsExplored(bestNode);
