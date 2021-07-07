@@ -92,12 +92,7 @@ export default class GameView
 
   private getTileColor = (x: number, y: number) =>
   {
-    let tileStatusToConsider = this.gameModel.grid[x][y];
-    if (!this.gameModel.getShowExploration() && tileStatusToConsider === TileStatus.Explored)
-      tileStatusToConsider = TileStatus.Default;
-
-    return colorMap.get(tileStatusToConsider) ?? defaultTileColor;
-    //return colorMap.get(this.gameModel.grid[x][y]) ?? defaultTileColor;
+    return colorMap.get(this.gameModel.grid[x][y]) ?? defaultTileColor;
   }
 
   public updateDisplay = () =>

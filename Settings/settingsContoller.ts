@@ -49,7 +49,7 @@ export default class SettingsController
       this.setGridSize(parseInt(this.settingsView.rowSize), parseInt(this.settingsView.columnSize));
     }
 
-    this.settingsModel.showExploration = this.settingsView.showExploration;
+    this.settingsModel.useHeuristic = this.settingsView.showExploration;
     this.settingsModel.useDelay = this.settingsView.useDelay;
     this.settingsModel.delayInMs = this.settingsView.nbDelay;
   }

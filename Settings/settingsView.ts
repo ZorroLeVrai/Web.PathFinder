@@ -7,7 +7,7 @@ export default class SettingsView
   private commitSettingsElement : HTMLButtonElement;
   private inputRowElement : HTMLInputElement;
   private inputColumnElement : HTMLInputElement;
-  private showExplorationElement : HTMLInputElement;
+  private useHeuristicElement : HTMLInputElement;
   private useDelayElement: HTMLInputElement;
   private setNbDelayElement: HTMLInputElement;
   private warningLabelElement: HTMLLabelElement;
@@ -19,7 +19,7 @@ export default class SettingsView
     this.commitSettingsElement = document.getElementById("commit-settings") as HTMLButtonElement;
     this.inputRowElement = document.getElementById("nb-rows") as HTMLInputElement;
     this.inputColumnElement = document.getElementById("nb-columns") as HTMLInputElement;
-    this.showExplorationElement = document.getElementById("show-exploration") as HTMLInputElement;
+    this.useHeuristicElement = document.getElementById("use-heuristic") as HTMLInputElement;
     this.useDelayElement = document.getElementById("use-delay") as HTMLInputElement;
     this.setNbDelayElement = document.getElementById("nb-delay") as HTMLInputElement;
     this.warningLabelElement = document.getElementById("show-warning") as HTMLLabelElement;
@@ -70,7 +70,7 @@ export default class SettingsView
   {
     this.inputRowElement.value = this._settingsModel.gridSize.nbLine.toString();
     this.inputColumnElement.value = this._settingsModel.gridSize.nbColumn.toString();
-    this.showExplorationElement.checked = this._settingsModel.showExploration;
+    this.useHeuristicElement.checked = this._settingsModel.useHeuristic;
     this.useDelayElement.checked = this._settingsModel.useDelay;
     this.setNbDelayElement.value = this._settingsModel.delayInMs.toString();
   }
@@ -93,7 +93,7 @@ export default class SettingsView
 
   get showExploration()
   {
-    return this.showExplorationElement.checked;
+    return this.useHeuristicElement.checked;
   }
 
   get useDelay()

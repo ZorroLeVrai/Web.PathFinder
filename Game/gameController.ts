@@ -27,6 +27,7 @@ export default class GameController
     this.gameView.addCanvasListener("mousemove", this.handleCanvasMouseMove);
     this.gameView.addCanvasListener("mousedown", this.handleCanvasMouseDown);
     this.gameView.addCanvasListener("mouseup", this.handleCanvasMouseUp);
+    this.gameView.addCanvasListener("mouseout", this.handleCanvasMouseUp);
     this.gameView.addGameModeListener(this.handleGameModeChange);
     this.gameView.addNewGridListener(this.handleNewGrid);
     this.gameView.addClearSolutionListener(this.handleClearSolution);
@@ -149,7 +150,7 @@ export default class GameController
   private handleSolve = () =>
   {
     this.handleClearSolution();
-    const pathFinder = new PathFinderService(this);
+    const pathFinder = new PathFinderService(this, this.gameModel.settingsModel.useHeuristic);
 
     if (this.getPathFinderDelay() > 0)
     {

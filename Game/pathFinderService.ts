@@ -37,11 +37,13 @@ export default class PathFinderService
   private endPosition: GridPosition;
   private exploredNodes: Map<number, PathInformation> = new Map();
   private nodeToExplore: Map<number, PathInformation> = new Map();
+  private useHeuristic: boolean;
 
-  constructor(private gameController : GameController)
+  constructor(private gameController : GameController, useHeuristic: boolean)
   {
     const startPosition = gameController.getStartPosition();
     const endPosition = gameController.getEndPosition();
+    this.useHeuristic = useHeuristic;
 
     if (startPosition !== undefined)
     {
@@ -93,7 +95,15 @@ export default class PathFinderService
 
 
   private createPathInformation = (currentPosition: GridPosition, previousPosition: GridPosition | null, pathLength: number) =>
-    new PathInformation(currentPosition, previousPosition, pathLength, this.getDistanceToEndPoint(currentPosition));
+    new PathInformation(currentPosition, previousPosition, pathLength, this.getRemainingWeight(currentPosition));
+
+  private getRemainingWeight = (position: GridPosition) => 
+  {
+    if (this.useHeuristic)
+      return this.getDistanceToEndPoint(position);
+
+    return 0;
+  }
 
   private getDistanceToEndPoint = (position: GridPosition) =>
   {

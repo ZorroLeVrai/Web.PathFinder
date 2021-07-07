@@ -36,8 +36,6 @@ export default class GameModel
     });
   }
 
-  public getShowExploration = () => this.settingsModel.showExploration;
-
   public getPathFinderDelay = () => (this.settingsModel.useDelay) ? this.settingsModel.delayInMs : 0;
 
   public resetGrid = () =>
