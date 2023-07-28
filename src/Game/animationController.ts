@@ -1,5 +1,5 @@
-import GameController from './gameController.js';
-import PathFinderService from './pathFinderService.js';
+import GameController from './gameController';
+import PathFinderService from './pathFinderService';
 
 
 export default class AnimationController

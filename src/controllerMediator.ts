@@ -1,6 +1,6 @@
-import { GridSize } from "./commonTypes.js";
-import GameController from "./Game/gameController.js";
-import SettingsController from "./Settings/settingsContoller.js";
+import { GridSize } from "./commonTypes";
+import GameController from "./Game/gameController";
+import SettingsController from "./Settings/settingsContoller";
 
 export default class ControllerMediator
 {

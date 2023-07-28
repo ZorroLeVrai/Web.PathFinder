@@ -1,5 +1,5 @@
-import { GridPosition, TileStatus } from '../commonTypes.js';
-import GameModel from './gameModel.js';
+import { GridPosition, TileStatus } from '../commonTypes';
+import GameModel from './gameModel';
 
 const backgroundColor = "black";
 const defaultTileColor = "white";

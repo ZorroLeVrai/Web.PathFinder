@@ -1,4 +1,4 @@
-import { GridSize } from '../commonTypes.js';
+import { GridSize } from '../commonTypes';
 
 export class SettingsModel
 {

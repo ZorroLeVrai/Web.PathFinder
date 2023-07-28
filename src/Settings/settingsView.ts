@@ -1,4 +1,4 @@
-import { SettingsModel } from "./settingsModel.js";
+import { SettingsModel } from "./settingsModel";
 
 export default class SettingsView
 {

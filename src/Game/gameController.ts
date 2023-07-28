@@ -1,9 +1,9 @@
-import { TileStatus, GameMode, GridPosition, GridSize } from "../commonTypes.js";
-import GameModel from "./gameModel.js";
-import GameView from './gameView.js';
-import ControllerMediator from "../controllerMediator.js";
-import PathFinderService from "./pathFinderService.js";
-import AnimationController from './animationController.js';
+import { TileStatus, GameMode, GridPosition, GridSize } from "../commonTypes";
+import GameModel from "./gameModel";
+import GameView from './gameView';
+import ControllerMediator from "../controllerMediator";
+import PathFinderService from "./pathFinderService";
+import AnimationController from './animationController';
 
 const radioBoxValue2GameModeMap = new Map([
   ["start", GameMode.SetStart],

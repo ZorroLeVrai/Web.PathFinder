@@ -1,6 +1,6 @@
-import { SettingsModel } from './settingsModel.js';
-import SettingsView from './settingsView.js';
-import ControllerMediator from '../controllerMediator.js';
+import { SettingsModel } from './settingsModel';
+import SettingsView from './settingsView';
+import ControllerMediator from '../controllerMediator';
 
 export default class SettingsController
 {

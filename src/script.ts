@@ -1,8 +1,8 @@
-import { SettingsModel } from './Settings/settingsModel.js';
-import SettingsController from './Settings/settingsContoller.js';
-import GameModel from './Game/gameModel.js';
-import GameController from './Game/gameController.js';
-import ControllerMediator from './controllerMediator.js';
+import { SettingsModel } from './Settings/settingsModel';
+import SettingsController from './Settings/settingsContoller';
+import GameModel from './Game/gameModel';
+import GameController from './Game/gameController';
+import ControllerMediator from './controllerMediator';
 
 let settingsController : SettingsController;
 let gameController: GameController;

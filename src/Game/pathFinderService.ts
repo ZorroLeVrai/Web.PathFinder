@@ -1,5 +1,5 @@
-import GameController from './gameController.js';
-import { GridPosition } from '../commonTypes.js';
+import GameController from './gameController';
+import { GridPosition } from '../commonTypes';
 
 class PathInformation
 {

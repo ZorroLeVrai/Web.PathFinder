@@ -1,5 +1,5 @@
-import { TileStatus, GameMode, GridPosition } from '../commonTypes.js';
-import { SettingsModel } from '../Settings/settingsModel.js';
+import { TileStatus, GameMode, GridPosition } from '../commonTypes';
+import { SettingsModel } from '../Settings/settingsModel';
 
 export default class GameModel
 {
