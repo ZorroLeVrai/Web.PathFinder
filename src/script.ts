@@ -3,6 +3,7 @@ import SettingsController from './Settings/settingsContoller';
 import GameModel from './Game/gameModel';
 import GameController from './Game/gameController';
 import ControllerMediator from './controllerMediator';
+import '../style.css';
 
 let settingsController : SettingsController;
 let gameController: GameController;
